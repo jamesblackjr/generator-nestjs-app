@@ -17,6 +17,7 @@ module.exports = class extends Generator {
     this.option('sql-typeorm-module')
     this.option('mongo-typeorm-module')
     this.option('graphql-module')
+    this.option('prisma-module')
     this.argument('name', {
       required: true,
       description: "The name of the module to create",
@@ -48,6 +49,10 @@ module.exports = class extends Generator {
     }
     if (this.options['graphql-module']) {
       this.myConfig.moduleType = "graphql-module"
+      return Promise.resolve()
+    }
+    if (this.options['prisma-module']) {
+      this.myConfig.moduleType = "prisma-module"
       return Promise.resolve()
     }
     return this.prompt([
@@ -139,6 +144,14 @@ module.exports = class extends Generator {
 
         this.fs.copyTpl(this.templatePath(moduleType + '/cats/cats.types.graphql'),
           this.destinationPath(`src/modules/${name}s/${name}s.types.graphql`), templateOptions)
+        return
+      }
+      case "prisma-module": {
+        this.fs.copyTpl(this.templatePath(moduleType + '/cats/cats.module.ts'),
+          this.destinationPath(`src/modules/${name}s/${name}s.module.ts`), templateOptions)
+
+        this.fs.copyTpl(this.templatePath(moduleType + '/cats/cats.resolvers.ts'),
+          this.destinationPath(`src/modules/${name}s/${name}s.resolvers.ts`), templateOptions)
         return
       }
     }

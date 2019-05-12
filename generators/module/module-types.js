@@ -19,4 +19,8 @@ module.exports = [
     name: 'An graphQl module',
     value: 'graphql-module'
   },
+  {
+    name: 'An Prisma module',
+    value: 'prisma-module'
+  },
 ]
